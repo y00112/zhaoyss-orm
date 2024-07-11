@@ -39,78 +39,40 @@ zhaoyssdb.password=
 #zhaoyssdb.driverClassName=org.sqlite.JDBC
 
 ```
+## 快速开始
+可以参考测试用例 [`src/test/java/com/zhaoyss/ZhaoyssdbTemplateUserTest.java`](src/test/java/com/zhaoyss/ZhaoyssdbTemplateUserTest.java)
 
-## Database Init
+## 操作指引
 ```java
-@Component
-public class DatabaseInitializer {
-    @Autowired
-    DataSource dataSource;
+    // save
+    User user = new User();
+    user.setEmail(email);
+    user.setPassword(password);
+    user.setName(name);
+    user.setCreatedAt(System.currentTimeMillis());
+    zhaoyssdbTemplate.insert(user);
 
-    /**
-     * h2 hsqldb 初始化代码
-     * @throws SQLException
-     */
-    @PostConstruct
-    public void init() throws SQLException {
-        try (var conn = dataSource.getConnection()) {
-            try (var stmt = conn.createStatement()) {
-                stmt.executeUpdate("CREATE TABLE IF NOT EXISTS users (" //
-                        + "id BIGINT IDENTITY NOT NULL PRIMARY KEY, " //
-                        + "email VARCHAR(100) NOT NULL, " //
-                        + "password VARCHAR(100) NOT NULL, " //
-                        + "name VARCHAR(100) NOT NULL, " //
-                        + "createdAt BIGINT NOT NULL, " //
-                        + "UNIQUE (email))");
-            }
-        }
-    }
+    // 根据id查询
+    User getUserById(long id) {
+    return zhaoyssdbTemplate.get(User.class, id);
 
+    // 根据条件查询所有字段
+    // select * from users where email = "zhaoyss@qq.com" 
+    zhaoyssdbTemplate.from(User.class).where("email = ?", email).one();
 
-    /**
-     * mysql 初始化代码
-     * @throws SQLException
-     */
-    @PostConstruct
-    public void init() throws SQLException {
-        try (var conn = dataSource.getConnection()) {
-            try (var stmt = conn.createStatement()) {
-                stmt.executeUpdate("CREATE TABLE IF NOT EXISTS users (" //
-                        + "id BIGINT AUTO_INCREMENT NOT NULL PRIMARY KEY, " //
-                        + "email VARCHAR(100) NOT NULL, " //
-                        + "password VARCHAR(100) NOT NULL, " //
-                        + "name VARCHAR(100) NOT NULL, " //
-                        + "createdAt BIGINT NOT NULL, " //
-                        + "UNIQUE (email))");
-            }
-        }
-    }
+    
+    // 根据条件查询指定的字段
+    // select name from users where emial = "zhaoyss@qq.com" 
+    zhaoyssdbTemplate.select("name").from(User.class).where("email = ?", email).unique();
 
-
-    /**
-     * SQLite
-     *
-     * @throws SQLException
-     */
-    @PostConstruct
-    public void init() throws SQLException {
-        try (Connection conn = dataSource.getConnection()) {
-            try (Statement stmt = conn.createStatement()) {
-                stmt.executeUpdate("CREATE TABLE IF NOT EXISTS users (" //
-                        + "id INTEGER PRIMARY KEY AUTOINCREMENT, " // 使用 AUTOINCREMENT 关键字
-                        + "email VARCHAR(100) NOT NULL, " //
-                        + "password VARCHAR(100) NOT NULL, " //
-                        + "name VARCHAR(100) NOT NULL, " //
-                        + "createdAt BIGINT NOT NULL, " //
-                        + "UNIQUE (email))");
-            }
-        }
-    }
-}
+    // 复杂查询
+    // select * form usres  order by id desc limit 0,5
+    int pageSize = 5;
+    zhaoyssdbTemplate.from(User.class).orderBy("id desc").limit((pageIndex - 1) * pageSize, pageSize).list();
 ```
-
 ## 参考
 - [设计ORM](https://www.liaoxuefeng.com/wiki/1252599548343744/1282383340896289)
 - [MyBatis](https://mybatis.net.cn/)
 - [JdbcTempalte](https://spring.io/projects/spring-data-jdbc)
+- [JPA](https://springdoc.cn/spring-data-jpa/)
 

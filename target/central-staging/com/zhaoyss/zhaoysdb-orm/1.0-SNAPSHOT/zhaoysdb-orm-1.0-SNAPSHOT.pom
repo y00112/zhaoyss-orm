@@ -9,10 +9,6 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>com.zhaoyss:zhaoysdb-orm</name>
-    <description>A simple ORM framework</description>
-    <url>https://github.com/y00112/zhaoyss-orm</url>
-
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
@@ -44,18 +40,6 @@
             <groupId>jakarta.persistence</groupId>
             <artifactId>jakarta.persistence-api</artifactId>
             <version>3.1.0</version>
-        </dependency>
-        <!-- Junit  =-->
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.13.2</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-test</artifactId>
-            <version>6.1.2</version>
         </dependency>
         <!-- HikariCP 连接池 -->
         <dependency>
@@ -98,20 +82,6 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
-    <scm>
-        <connection>https://github.com/y00112/zhaoyss-orm.git</connection>
-        <url>https://github.com/y00112/zhaoyss-orm</url>
-    </scm>
-    <developers>
-        <developer>
-            <name>zhaoyss</name>
-            <email>925191823@qq.com</email>
-            <roles>
-                <role>Developer</role>
-            </roles>
-            <timezone>+8</timezone>
-        </developer>
-    </developers>
 
     <build>
         <plugins>
