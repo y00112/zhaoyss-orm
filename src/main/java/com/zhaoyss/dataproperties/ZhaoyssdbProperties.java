@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @PropertySource("jdbc.properties")
 public class ZhaoyssdbProperties {
 
-    @Value("${zhaoyssdb.entity-package-path}")
+    @Value("${zhaoyssdb.entityPackagePath}")
     private String entityPackagePath;
 
     @Value("${zhaoyssdb.datasource}")
@@ -17,13 +17,13 @@ public class ZhaoyssdbProperties {
     @Value("${zhaoyssdb.url}")
     private  String jdbcUrl;
 
-    @Value("${zhaoyssdb.username}")
+    @Value("${zhaoyssdb.username:root}")
     private  String jdbcUsername;
 
-    @Value("${zhaoyssdb.password}")
+    @Value("${zhaoyssdb.password:123456}")
     private  String jdbcPassword;
 
-    @Value("${zhaoyssdb.driver-class-name}")
+    @Value("${zhaoyssdb.driverClassName}")
     private String driverClassName;
 
     public String getDataSourceType() {

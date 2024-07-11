@@ -3,11 +3,8 @@ package com.zhaoyss;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import com.zhaoyss.dataproperties.ZhaoyssdbProperties;
-import com.zhaoyss.entity.User;
 import com.zhaoyss.orm.ZhaoyssdbTemplate;
-import com.zhaoyss.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.*;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
@@ -61,8 +58,8 @@ public class DbConfig {
         config.setUsername(config.getUsername());
         config.setPassword(config.getPassword());
         config.addDataSourceProperty("autoCommit", "true");
-        config.addDataSourceProperty("connectionTimeout", "5");
-        config.addDataSourceProperty("idleTimeout", "60");
+        config.addDataSourceProperty("connectionTimeout", "5000");
+        config.addDataSourceProperty("idleTimeout", "60000");
         return new HikariDataSource(config);
     }
 
@@ -70,8 +67,6 @@ public class DbConfig {
         HikariConfig config = new HikariConfig();
         config.setDriverClassName(zhaoyssdbProperties.getDriverClassName());
         config.setJdbcUrl(zhaoyssdbProperties.getJdbcUrl());
-        config.setUsername(config.getUsername());
-        config.setPassword(config.getPassword());
         config.addDataSourceProperty("autoCommit", "true");
         config.addDataSourceProperty("connectionTimeout", "5");
         config.addDataSourceProperty("idleTimeout", "60");
@@ -82,8 +77,8 @@ public class DbConfig {
         HikariConfig config = new HikariConfig();
         config.setDriverClassName(zhaoyssdbProperties.getDriverClassName());
         config.setJdbcUrl(zhaoyssdbProperties.getJdbcUrl());
-        config.setUsername(config.getUsername());
-        config.setPassword(config.getPassword());
+        config.setUsername(zhaoyssdbProperties.getJdbcUsername());
+        config.setPassword(zhaoyssdbProperties.getJdbcPassword());
         config.addDataSourceProperty("autoCommit", "true");
         config.addDataSourceProperty("connectionTimeout", "5");
         config.addDataSourceProperty("idleTimeout", "60");
@@ -102,13 +97,6 @@ public class DbConfig {
     @Bean
     ZhaoyssdbTemplate createZhaoyssdbTemplate(@Autowired JdbcTemplate jdbcTemplate){
         return new ZhaoyssdbTemplate(jdbcTemplate, zhaoyssdbProperties.getEntityPackagePath());
-    }
-
-    public static void main(String[] args) {
-        ApplicationContext context = new AnnotationConfigApplicationContext(DbConfig.class);
-        UserService userService = context.getBean(UserService.class);
-        User user = userService.register("zhaoyss123@qq.com", "password", "zhaoyss123");
-        System.out.println("register ok: " + user.getId());
     }
 
 }

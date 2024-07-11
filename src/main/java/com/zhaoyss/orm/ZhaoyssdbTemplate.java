@@ -112,7 +112,7 @@ public class ZhaoyssdbTemplate {
                     }
                 },keyHolder);
                 if (rows == 1){
-                    mapper.id.setter.invoke(bean,keyHolder.getKey());
+                    mapper.id.setter.invoke(bean,keyHolder.getKey().longValue());
                 }
             }else {
                 // id是指定的
