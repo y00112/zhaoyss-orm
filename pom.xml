@@ -9,6 +9,10 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
+    <name>com.zhaoyss:zhaoysdb-orm</name>
+    <description>A simple ORM framework</description>
+    <url>https://github.com/y00112/zhaoyss-orm</url>
+
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
@@ -82,7 +86,20 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
-
+    <scm>
+        <connection>https://github.com/y00112/zhaoyss-orm.git</connection>
+        <url>https://github.com/y00112/zhaoyss-orm</url>
+    </scm>
+    <developers>
+        <developer>
+            <name>zhaoyss</name>
+            <email>925191823@qq.com</email>
+            <roles>
+                <role>Developer</role>
+            </roles>
+            <timezone>+8</timezone>
+        </developer>
+    </developers>
 
     <build>
         <plugins>
@@ -92,6 +109,15 @@
                 <configuration>
                     <source>17</source>
                     <target>17</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.sonatype.central</groupId>
+                <artifactId>central-publishing-maven-plugin</artifactId>
+                <version>0.5.0</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <publishingServerId>central</publishingServerId>
                 </configuration>
             </plugin>
         </plugins>
