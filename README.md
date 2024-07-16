@@ -8,7 +8,18 @@
 - 支持h2,hsqldb,mysql,sqlite等多种数据源切换
 
 # 使用说明
-需要在项目的 resources 文件下创建一个 jdbc.properties 配置文件。
+1. 引入 pom 文件
+
+```pom
+<dependency>
+    <groupId>io.github.y00112</groupId>
+    <artifactId>zhaoysdb-orm</artifactId>
+    <version>1.0.0</version>
+</dependency>
+```
+
+2. 需要在项目的 resources 文件下创建一个 jdbc.properties 配置文件。
+
 ```properties
 # zhaoyssdb配置
 # 数据源类型：sqlite,h2,hsqldb,mysql
@@ -39,36 +50,39 @@ zhaoyssdb.password=
 #zhaoyssdb.driverClassName=org.sqlite.JDBC
 
 ```
+3. 在启动类添加 `@Import(DbConfig.class)` 完成对 zhaoyssdb-orm 框架的配置
+
 ## 快速开始
+
 可以参考测试用例 [`src/test/java/com/zhaoyss/ZhaoyssdbTemplateUserTest.java`](src/test/java/com/zhaoyss/ZhaoyssdbTemplateUserTest.java)
 
 ## 操作指引
 ```java
-    // save
-    User user = new User();
-    user.setEmail(email);
-    user.setPassword(password);
-    user.setName(name);
-    user.setCreatedAt(System.currentTimeMillis());
-    zhaoyssdbTemplate.insert(user);
+// save
+User user = new User();
+user.setEmail(email);
+user.setPassword(password);
+user.setName(name);
+user.setCreatedAt(System.currentTimeMillis());
+zhaoyssdbTemplate.insert(user);
 
-    // 根据id查询
-    User getUserById(long id) {
-    return zhaoyssdbTemplate.get(User.class, id);
-
-    // 根据条件查询所有字段
-    // select * from users where email = "zhaoyss@qq.com" 
-    zhaoyssdbTemplate.from(User.class).where("email = ?", email).one();
-
+// 根据id查询
+User getUserById(long id) {
+return zhaoyssdbTemplate.get(User.class, id);
     
-    // 根据条件查询指定的字段
-    // select name from users where emial = "zhaoyss@qq.com" 
-    zhaoyssdbTemplate.select("name").from(User.class).where("email = ?", email).unique();
+// 根据条件查询所有字段
+// select * from users where email = "zhaoyss@qq.com" 
+zhaoyssdbTemplate.from(User.class).where("email = ?", email).one();
 
-    // 复杂查询
-    // select * form usres  order by id desc limit 0,5
-    int pageSize = 5;
-    zhaoyssdbTemplate.from(User.class).orderBy("id desc").limit((pageIndex - 1) * pageSize, pageSize).list();
+
+// 根据条件查询指定的字段
+// select name from users where emial = "zhaoyss@qq.com" 
+zhaoyssdbTemplate.select("name").from(User.class).where("email = ?", email).unique();
+
+// 复杂查询
+// select * form usres  order by id desc limit 0,5
+int pageSize = 5;
+zhaoyssdbTemplate.from(User.class).orderBy("id desc").limit((pageIndex - 1) * pageSize, pageSize).list();
 ```
 ## 参考
 - [设计ORM](https://www.liaoxuefeng.com/wiki/1252599548343744/1282383340896289)
